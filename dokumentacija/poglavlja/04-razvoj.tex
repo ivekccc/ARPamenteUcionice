@@ -6,6 +6,14 @@ Pre implementacije samog AR pregleda učionica potrebno je pripremiti razvojno o
 
 Razvoj se odvija u okruženju \textit{Android Studio}, zvaničnom integrisanom razvojnom okruženju za Android platformu. Dovoljno je instalirati poslednju stabilnu verziju, jer ona već sadrži odgovarajući JDK (verzije 17 ili novije) i menadžer za \textit{Android SDK}, kroz koji se preuzima platforma koja odgovara vrednosti \texttt{compileSdk = 36} iz ovog projekta. Programski jezik je \textit{Kotlin} 2.1.20, u kombinaciji sa \textit{Android Gradle Plugin}-om 8.13.0, dok se sam \textit{Gradle} ne instalira posebno --- projekat sadrži \textit{Gradle wrapper}, skriptu koja pri prvom pokretanju preuzima tačno onu verziju alata sa kojom je projekat testiran.
 
+\begin{figure}[H]
+\centering
+\raisebox{-0.5\height}{\includegraphics[height=2.4cm]{slike/logo-android-studio.png}}\hfill
+\raisebox{-0.5\height}{\includegraphics[height=1.5cm]{slike/logo-kotlin.png}}\hfill
+\raisebox{-0.5\height}{\includegraphics[height=1.7cm]{slike/logo-gradle.png}}
+\caption{Alati korišćeni u razvoju: \textit{Android Studio}, \textit{Kotlin} i \textit{Gradle}}
+\end{figure}
+
 Kada je reč o emulatoru, razvoj AR aplikacije realno zahteva fizički uređaj: emulator podržava ARCore samo u ograničenim scenarijima, sa virtuelnom scenom umesto stvarnog okruženja, pa se ponašanje aplikacije --- posebno prepoznavanje odštampanog markera pravom kamerom i stabilnost sidrenja --- ne može verodostojno proveriti bez pravog telefona.
 
 \subsection{Potrebna oprema na telefonu}
