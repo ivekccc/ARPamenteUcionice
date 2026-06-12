@@ -14,6 +14,12 @@ Suština platforme može se sažeti u tri temeljne sposobnosti: praćenje pokret
 
 Da bi virtuelni objekat ostao na svom mestu dok se korisnik kreće, telefon u svakom trenutku mora da zna gde se nalazi i kuda je usmeren. \textit{ARCore} taj problem rešava postupkom koji se naziva vizuelno-inercijalna odometrija. Platforma na slici sa kamere pronalazi vizuelno upečatljive tačke --- ivice, uglove i kontrastne detalje tekstura --- i prati kako se njihov položaj menja iz kadra u kadar. Istovremeno očitava podatke sa akcelerometra i žiroskopa, senzora koji mere ubrzanje i rotaciju uređaja. Kombinovanjem ova dva izvora informacija, koji se međusobno dopunjuju i ispravljaju, \textit{ARCore} izračunava položaj i orijentaciju telefona u prostoru sa šest stepeni slobode: tri translacije duž prostornih osa i tri rotacije oko njih. Zahvaljujući tome, virtuelni sadržaj se u svakom kadru iscrtava iz tačno odgovarajuće perspektive --- kada korisnik priđe virtuelnom objektu, objekat se uvećava; kada ga zaobiđe, vidi ga sa druge strane, baš kao da je reč o stvarnom predmetu.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{slike/sest-stepeni-slobode.png}
+\caption{Šest stepeni slobode: tri translacije duž prostornih osa i tri rotacije oko njih}
+\end{figure}
+
 \subsection{Razumevanje okruženja}
 
 Pored sopstvenog položaja, uređaj mora da razume i prostor oko sebe. \textit{ARCore} neprekidno analizira raspored karakterističnih tačaka koje prati i, kada uoči grupe tačaka koje leže u istoj ravni, zaključuje da je pronašao površinu: pod, radni sto, sedište stolice ili zid. Platforma prepoznaje i horizontalne i vertikalne ravni, određuje njihove granice i proširuje ih kako kamera obuhvata nove delove prostora. Tako izgrađen model okruženja omogućava da se virtuelni objekti postavljaju na smislena mesta --- figura na pod, a slika na zid --- umesto da lebde u vazduhu.
