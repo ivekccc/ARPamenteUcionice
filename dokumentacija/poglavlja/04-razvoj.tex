@@ -20,7 +20,20 @@ Kada je reč o emulatoru, razvoj AR aplikacije realno zahteva fizički uređaj: 
 
 Za pokretanje aplikacije neophodan je Android uređaj sertifikovan za ARCore --- Google održava javnu listu podržanih modela čije su kamere, senzori pokreta i procesori prošli proveru kvaliteta praćenja. Uređaj mora imati Android 7.0 (API nivo 24) ili noviji, što se poklapa sa vrednošću \texttt{minSdk = 24} u konfiguraciji projekta. Pored toga, na uređaju mora biti instalirana usluga \textit{Google Play Services for AR} (ARCore), koja se distribuira i automatski ažurira preko prodavnice \textit{Google Play}, pa aplikacija ne pakuje ARCore u sebe, već se oslanja na tu sistemsku uslugu.
 
+\begin{figure}[H]
+\centering
+\raisebox{-0.5\height}{\includegraphics[height=3.2cm]{slike/google-play-services-ar.png}}\hspace{1.2cm}
+\raisebox{-0.5\height}{\includegraphics[height=2.2cm]{slike/arcore-ikonica.png}}
+\caption{Usluga \textit{Google Play Services for AR} i \textit{ARCore} ikonica}
+\end{figure}
+
 Da bi se aplikacija instalirala direktno iz okruženja \textit{Android Studio}, na telefonu je potrebno uključiti opcije za programere i dozvoliti otklanjanje grešaka preko USB veze (\textit{USB debugging}); alternativno, novije verzije okruženja podržavaju i bežično uparivanje preko Wi-Fi mreže. Pošto aplikacija podatke preuzima sa servera u lokalnoj mreži, telefon i računar na kome server radi moraju biti povezani na istu Wi-Fi mrežu.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{slike/usb-debugging.jpg}
+\caption{Uključivanje opcija za programere i otklanjanja grešaka preko USB veze (\textit{USB debugging}) na telefonu}
+\end{figure}
 
 \subsection{Kreiranje projekta i zavisnosti}
 
