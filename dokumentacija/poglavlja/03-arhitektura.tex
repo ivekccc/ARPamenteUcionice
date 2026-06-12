@@ -30,6 +30,48 @@ Server je \textit{Spring Boot} aplikacija (verzija 3.5, Java 21) koja simulira p
 
 Za svaku izmerenu veličinu server izračunava status sa vrednostima \texttt{OK}, \texttt{WARNING} ili \texttt{CRITICAL} prema zadatim pragovima: temperatura je u redu između 20 i 26~°C, buka ispod 45~dB, a ugljen-dioksid ispod 800~ppm, dok vrednosti izvan širih granica postaju kritične. Na osnovu statusa formira se i preporuka na srpskom jeziku kao podrška odlučivanju --- od „Uslovi su optimalni." preko „Pratiti uslove u prostoriji." do „Hitno provetriti prostoriju." kada je koncentracija ugljen-dioksida kritična. Server iz rasporeda časova i sopstvenog sata izvodi i tekst zauzetosti (naziv tekućeg časa i vreme do kojeg je učionica zauzeta), a vraćenim vrednostima dodaje blagi sinusni šum kako bi paneli delovali živo i bez stalnih promena na kontrolnoj tabli.
 
+Izgled kompletnog odgovora servera najbolje ilustruje stvaran primer. Na upit \texttt{GET /api/rooms/101} server vraća sledeći JSON dokument:
+
+\begin{figure}[H]
+\begin{verbatim}
+{
+    "roomId": "101",
+    "roomName": "Računarska laboratorija 101",
+    "occupied": true,
+    "currentClassName": "Veštačka inteligencija",
+    "occupiedUntil": "14:00",
+    "schedule": [
+        {
+            "startTime": "08:15",
+            "endTime": "10:00",
+            "className": "Pametna okruženja",
+            "lecturerName": "prof. Maja Petrović"
+        },
+        {
+            "startTime": "10:15",
+            "endTime": "12:00",
+            "className": "Mobilne aplikacije",
+            "lecturerName": "prof. Nikola Janković"
+        },
+        {
+            "startTime": "12:15",
+            "endTime": "14:00",
+            "className": "Veštačka inteligencija",
+            "lecturerName": "prof. Ana Stojanović"
+        }
+    ],
+    "temperatureCelsius": 23.3,
+    "temperatureStatus": "OK",
+    "noiseDecibels": 40.5,
+    "noiseStatus": "OK",
+    "carbonDioxidePpm": 735,
+    "airQualityStatus": "OK",
+    "recommendation": "Uslovi su optimalni."
+}
+\end{verbatim}
+\caption{Odgovor servera na upit \texttt{GET /api/rooms/101}}
+\end{figure}
+
 \subsection{Kontrolna tabla}
 
 Kontrolna tabla je jednostrana \textit{Angular} aplikacija (naziv \texttt{kontrolna-tabla}) sa po jednom karticom za svaku učionicu. Kartica sadrži prekidač zauzetosti i tri klizača --- temperaturu, buku i ugljen-dioksid --- čija se svaka promena, posle zadrška od 300~ms (engl. \textit{debounce}), šalje serveru pozivom \texttt{PUT /api/rooms/\{roomId\}/sensors}. Tabla istovremeno na svakih pet sekundi preuzima sveže stanje svih učionica. Njena uloga u sistemu je demonstraciona: pošto u učionicama ne postoje stvarni senzori, prezenter preko klizača uživo simulira promene u pametnom okruženju i posmatra kako se one odražavaju na AR panelu.
