@@ -52,16 +52,9 @@ Konstante \texttt{BITMAP\_WIDTH} i \texttt{BITMAP\_HEIGHT} iznose 1024 i 768 pik
 
 Komunikacija sa serverom izvedena je bibliotekom \textit{Retrofit} uz \textit{kotlinx-serialization} konvertor. Mrežni interfejs sadrži dve suspendovane funkcije:
 
-\begin{verbatim}
-interface RoomApiService {
-
-    @GET("api/rooms")
-    suspend fun getRooms(): List<RoomResponse>
-
-    @GET("api/rooms/{roomId}")
-    suspend fun getRoom(@Path("roomId") roomId: String): RoomResponse
-}
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.85\textwidth]{slike/implementacija-room-api-service.png}
+\end{center}
 
 Odgovori servera preslikavaju se u tipizirane objekte: klasa \texttt{RoomResponse} označena anotacijom \texttt{@Serializable} sadrži tačno ona polja koja server vraća (naziv, zauzetost, raspored, vrednosti senzora, statuse i preporuku), pri čemu su statusi modelovani nabrajanjem \texttt{SensorStatus} sa vrednostima \texttt{OK}, \texttt{WARNING} i \texttt{CRITICAL}. Adresa servera čita se iz deljenih podešavanja (\texttt{SharedPreferences}), gde je upisuje početni ekran.
 
