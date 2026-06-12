@@ -98,6 +98,10 @@ Kada su okruženje, zavisnosti i manifest spremni, do prve funkcionalne AR scene
 \includegraphics[width=0.78\textwidth]{slike/korak-lifecycle.png}
 \end{center}
 \item U pozivu \texttt{configureSession} konfiguriše se sesija: gradi se baza slika \texttt{AugmentedImageDatabase} sa markerima učionica i dodeljuje polju \texttt{config.augmentedImageDatabase}, čime se uključuje praćenje slika opisano u odeljku 2.5.
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{slike/korak-configure-session.png}
+\end{center}
 \item Podrazumevani prikaz detektovanih ravni isključuje se postavkom svojstva \texttt{isEnabled} komponente \texttt{planeRenderer} na vrednost netačno, jer aplikaciji ravni nisu potrebne, a istaknute površine bi vizuelno opterećivale ekran.
 \item Preko povratnog poziva \texttt{onSessionUpdated} aplikacija se uključuje u obradu svakog frejma i iz njega čita novoprepoznate i ažurirane slike markera.
 \item U vreme izvršavanja traži se dozvola za kameru, budući da se od API nivoa 23 opasne dozvole moraju eksplicitno odobriti od strane korisnika.
