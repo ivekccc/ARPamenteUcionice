@@ -60,6 +60,14 @@ U praksi se \textit{ARCore} koristi ili neposredno, kroz njegov izvorni programs
 
 Pored ravni i karakterističnih tačaka, \textit{ARCore} ume da prepoznaje i prati unapred zadate dvodimenzionalne slike u stvarnom svetu --- sposobnost poznata pod nazivom \textit{Augmented Images} (praćenje slika). Programer unapred sastavlja bazu slika, objekat tipa \texttt{AugmentedImageDatabase}, u koju svaku referentnu sliku dodaje pozivom \texttt{addImage} uz jedinstveno ime i, opciono, fizičku širinu odštampanog primerka izraženu u metrima. Kada je baza pridružena konfiguraciji sesije, \textit{ARCore} u svakom kadru upoređuje karakteristične tačke slike sa kamere sa tačkama slika iz baze. Čim prepozna neku od njih, platforma vraća objekat \texttt{AugmentedImage} koji nosi ime prepoznate slike, njenu pozu u prostoru (\texttt{centerPose}), procenjene dimenzije (\texttt{extentX} i \texttt{extentZ}) i stanje praćenja. Prepoznata slika time postaje punopravan objekat praćenja: za nju se može vezati sidro, a virtuelni sadržaj postavljen u njenom koordinatnom sistemu prati je dok se korisnik kreće.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\textwidth]{slike/marker-ucionica-101.png}\hfill
+\includegraphics[width=0.3\textwidth]{slike/marker-ucionica-102.png}\hfill
+\includegraphics[width=0.3\textwidth]{slike/marker-ucionica-103.png}
+\caption{Referentne slike markera učionica 101, 102 i 103 iz baze slika aplikacije}
+\end{figure}
+
 Kvalitet prepoznavanja presudno zavisi od same slike markera. Dobra referentna slika bogata je detaljima, ima visok kontrast i izbegava ponavljajuće šare i velike jednobojne površine, jer se prepoznavanje zasniva na rasporedu karakterističnih tačaka. \textit{Google} uz platformu isporučuje alat \texttt{arcoreimg}, koji sliku ocenjuje na skali od 0 do 100; preporučuje se ocena od najmanje 75 da bi praćenje bilo pouzdano. Navođenje fizičke širine slike dodatno je važno: kada zna stvarne dimenzije markera, platforma odmah po prepoznavanju tačno procenjuje njegovu udaljenost i pozu, umesto da ih postepeno precizira posmatranjem iz više uglova. Jedna baza može da sadrži i do hiljadu slika, pri čemu se istovremeno prati do dvadeset prepoznatih markera.
 
 Za aplikaciju iz ovog rada praćenje slika predstavlja prirodan izbor i središnji mehanizam čitavog rešenja. Odštampani marker na vratima učionice jednoznačno identifikuje prostoriju --- ime prepoznate slike u sebi nosi oznaku učionice, pa aplikacija odmah zna od kog servera zatražiti podatke --- dok sidro vezano za pozu slike obezbeđuje da informacioni panel ostane „prikovan" iznad vrata i kada se korisnik pomera, približava ili menja ugao gledanja. Povrh svega, platforma radi na širokom spektru postojećih uređaja bez dodatne opreme, čime aplikacija postaje dostupna najširem krugu korisnika. Način na koji se ove mogućnosti konkretno koriste u razvoju prikazan je u narednim poglavljima.
