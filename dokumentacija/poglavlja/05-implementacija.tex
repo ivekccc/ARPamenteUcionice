@@ -32,18 +32,9 @@ Kada slika prvi put uđe u stanje praćenja, aplikacija za nju kreira sidro u ce
 
 Sidro vezano za pozu slike obezbeđuje da sadržaj ostane pričvršćen za marker dok ARCore precizira svoje razumevanje scene. Sam panel je čvor tipa \texttt{ImageNode} --- ravan pravougaonik na koji se kao tekstura preslikava bitmapa --- veličine 32 puta 24 centimetra u stvarnom prostoru:
 
-\begin{verbatim}
-val panelNode = ImageNode(
-    materialLoader = binding.sceneView.materialLoader,
-    bitmap = panelBitmap,
-    size = Size(PANEL_WIDTH_METERS, PANEL_HEIGHT_METERS, 0f)
-)
-panelNode.rotation = Rotation(x = -90f, y = 0f, z = 0f)
-panelNode.position = Position(
-    0f, 0f, panelOffsets[imageName] ?: DEFAULT_PANEL_OFFSET_METERS
-)
-anchorNode.addChildNode(panelNode)
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{slike/implementacija-image-node.png}
+\end{center}
 
 Koordinatni sistem prepoznate slike postavlja X osu duž njene širine, Z osu duž visine, a Y osu upravno na nju, pa se rotacijom od $-90$ stepeni oko X ose pravougaonik panela poravnava sa ravni markera. Pomeraj duž negativne Z ose, izračunat prilikom prepoznavanja, iznosi polovinu visine markera (\texttt{extentZ / 2}) uvećanu za razmak od tri centimetra i polovinu visine samog panela --- time panel lebdi tačno iznad gornje ivice markera, odnosno iznad vrata učionice.
 
