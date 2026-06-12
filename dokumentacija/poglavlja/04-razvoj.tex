@@ -36,7 +36,7 @@ Da bi se aplikacija instalirala direktno iz okruženja \textit{Android Studio}, 
 
 \subsection{Kreiranje projekta i zavisnosti}
 
-Projekat se kreira kroz čarobnjak (engl. \textit{wizard}) u okruženju \textit{Android Studio}, izborom šablona \textit{Empty Views Activity}, sa jezikom \textit{Kotlin} i konfiguracijom izgradnje u obliku \textit{Gradle Kotlin DSL} datoteka (\texttt{build.gradle.kts}). Nakon kreiranja, u datoteku \texttt{app/build.gradle.kts} dodaju se zavisnosti prikazane u tabeli~\ref{tab:dependencies}, čije su verzije centralizovane u katalogu \texttt{gradle/libs.versions.toml}.
+Projekat se kreira kroz čarobnjak (engl. \textit{wizard}) u okruženju \textit{Android Studio}, izborom šablona \textit{Empty Views Activity}, sa jezikom \textit{Kotlin} i konfiguracijom izgradnje u obliku \textit{Gradle Kotlin DSL} datoteka (\texttt{build.gradle.kts}). Nakon kreiranja, u datoteku \texttt{app/build.gradle.kts} dodaju se zavisnosti prikazane na slici~\ref{tab:dependencies}, čije su verzije centralizovane u katalogu \texttt{gradle/libs.versions.toml}.
 
 \begin{figure}[H]
 \centering
@@ -50,28 +50,12 @@ Projekat se kreira kroz čarobnjak (engl. \textit{wizard}) u okruženju \textit{
 \caption{Podešavanja novog projekta: jezik \textit{Kotlin}, minimalni SDK API 24 i konfiguracija izgradnje \textit{Kotlin DSL} (\texttt{build.gradle.kts})}
 \end{figure}
 
-\begin{table}[H]
+\begin{figure}[H]
 \centering
-\small
-\begin{tabular}{lr}
-\toprule
-\textbf{Zavisnost} & \textbf{Verzija} \\
-\midrule
-\texttt{io.github.sceneview:arsceneview} & 2.2.1 \\
-\texttt{androidx.core:core-ktx} & 1.16.0 \\
-\texttt{androidx.appcompat:appcompat} & 1.7.0 \\
-\texttt{com.google.android.material:material} & 1.12.0 \\
-\texttt{androidx.constraintlayout:constraintlayout} & 2.2.1 \\
-\texttt{androidx.lifecycle:lifecycle-runtime-ktx} & 2.8.7 \\
-\texttt{com.squareup.retrofit2:retrofit} & 2.11.0 \\
-\texttt{com.squareup.retrofit2:converter-kotlinx-serialization} & 2.11.0 \\
-\texttt{org.jetbrains.kotlinx:kotlinx-serialization-json} & 1.8.0 \\
-\texttt{com.squareup.okhttp3:logging-interceptor} & 4.12.0 \\
-\bottomrule
-\end{tabular}
-\caption{Zavisnosti korišćene u projektu}
+\includegraphics[width=0.8\textwidth]{slike/zavisnosti-projekta.png}
+\caption{Zavisnosti korišćene u projektu, blok \texttt{dependencies} u datoteci \texttt{app/build.gradle.kts}}
 \label{tab:dependencies}
-\end{table}
+\end{figure}
 
 Ključna zavisnost je biblioteka \textit{SceneView} (\texttt{arsceneview}), koja objedinjuje ARCore i \textit{Filament} mehanizam za renderovanje: umesto direktnog korišćenja ARCore-a, što bi zahtevalo ručno pisanje OpenGL koda za prikaz kamere i 3D objekata, SceneView nudi gotovu komponentu \texttt{ARSceneView}, graf scene sa čvorovima (\texttt{Node}) i renderovanje „iz kutije". Za mrežnu komunikaciju sa serverom koristi se \textit{Retrofit} u kombinaciji sa \textit{kotlinx-serialization} konvertorom, čime se JSON odgovori servera automatski pretvaraju u tipizirane Kotlin objekte, dok se \textit{OkHttp logging-interceptor} uključuje samo u razvojnoj varijanti radi uvida u mrežni saobraćaj. Korutine i \texttt{lifecycle-runtime-ktx} obezbeđuju asinhrono periodično preuzimanje podataka usklađeno sa životnim ciklusom aktivnosti. U bloku \texttt{android} uključena je i opcija \texttt{buildFeatures \{ viewBinding = true \}}, kojom se za svaki XML raspored generiše tipizovana klasa za pristup elementima interfejsa, čime se izbegavaju pozivi \texttt{findViewById}.
 
