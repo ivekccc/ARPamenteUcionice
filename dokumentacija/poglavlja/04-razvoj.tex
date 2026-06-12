@@ -72,15 +72,10 @@ Datoteka \texttt{AndroidManifest.xml} mora precizno opisati zahteve aplikacije p
 
 \item Deklaracija da je AR hardver obavezan, u kombinaciji sa oznakom da je ARCore neizostavna komponenta aplikacije:
 
-\begin{verbatim}
-<uses-feature
-    android:name="android.hardware.camera.ar"
-    android:required="true" />
-<meta-data
-    android:name="com.google.ar.core"
-    android:value="required"
-    tools:replace="android:value" />
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.62\textwidth]{slike/manifest-uses-feature.png}\\[0.6em]
+\includegraphics[width=0.55\textwidth]{slike/manifest-meta-data.png}
+\end{center}
 
 Ovim parom aplikacija postaje „AR Required", što znači da se u prodavnici nudi samo uređajima koji podržavaju ARCore. Oznaka \texttt{tools:replace} nad atributom \texttt{android:value} ovde je neophodna: biblioteka SceneView u svom manifestu istu meta-oznaku deklariše sa vrednošću \texttt{optional}, pa bi spajanje manifesta (\textit{manifest merge}) bez ove oznake završilo greškom zbog sukoba vrednosti; ovako vrednost iz aplikacije nadjačava vrednost iz biblioteke.
 
