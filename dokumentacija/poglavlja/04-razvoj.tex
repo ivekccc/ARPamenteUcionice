@@ -66,16 +66,20 @@ Datoteka \texttt{AndroidManifest.xml} mora precizno opisati zahteve aplikacije p
 \begin{itemize}
 \item Dozvola za pristup kameri, koja je obavezna, jer bez kamere proširena stvarnost nije moguća, i dozvola za pristup internetu, neophodna za preuzimanje podataka sa servera:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.85\textwidth]{slike/manifest-dozvole.png}
-\end{center}
+\caption{Dozvole za pristup kameri i internetu u datoteci \texttt{AndroidManifest.xml}}
+\end{figure}
 
 \item Deklaracija da je AR hardver obavezan, u kombinaciji sa oznakom da je ARCore neizostavna komponenta aplikacije:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.62\textwidth]{slike/manifest-uses-feature.png}\\[0.6em]
 \includegraphics[width=0.55\textwidth]{slike/manifest-meta-data.png}
-\end{center}
+\caption{Deklaracija obaveznog AR hardvera i \textit{ARCore} meta-oznaka u manifestu}
+\end{figure}
 
 Ovim parom aplikacija postaje „AR Required", što znači da se u prodavnici nudi samo uređajima koji podržavaju ARCore. Oznaka \texttt{tools:replace} nad atributom \texttt{android:value} ovde je neophodna: biblioteka SceneView u svom manifestu istu meta-oznaku deklariše sa vrednošću \texttt{optional}, pa bi spajanje manifesta (\textit{manifest merge}) bez ove oznake završilo greškom zbog sukoba vrednosti; ovako vrednost iz aplikacije nadjačava vrednost iz biblioteke.
 
@@ -89,39 +93,53 @@ Kada su okruženje, zavisnosti i manifest spremni, do prve funkcionalne AR scene
 \begin{enumerate}
 \item U XML raspored aktivnosti dodaje se komponenta \texttt{ARSceneView}, koja istovremeno prikazuje sliku sa kamere i renderovane 3D objekte.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.72\textwidth]{slike/korak-arsceneview-xml.png}
-\end{center}
+\caption{Komponenta \texttt{ARSceneView} u XML rasporedu aktivnosti}
+\end{figure}
 \item Pogled na scenu povezuje se sa životnim ciklusom aktivnosti dodelom \texttt{sceneView.lifecycle = lifecycle}, čime se AR sesija automatski pauzira i nastavlja zajedno sa aktivnošću.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.78\textwidth]{slike/korak-lifecycle.png}
-\end{center}
+\caption{Vezivanje pogleda na scenu za životni ciklus aktivnosti}
+\end{figure}
 \item U pozivu \texttt{configureSession} konfiguriše se sesija: gradi se baza slika \texttt{AugmentedImageDatabase} sa markerima učionica i dodeljuje polju \texttt{config.augmentedImageDatabase}, čime se uključuje praćenje slika opisano u odeljku 2.5.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.8\textwidth]{slike/korak-configure-session.png}
-\end{center}
+\caption{Konfiguracija sesije i izgradnja baze slika markera}
+\end{figure}
 \item Podrazumevani prikaz detektovanih ravni isključuje se postavkom svojstva \texttt{isEnabled} komponente \texttt{planeRenderer} na vrednost netačno, jer aplikaciji ravni nisu potrebne, a istaknute površine bi vizuelno opterećivale ekran.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.42\textwidth]{slike/korak-plane-renderer.png}
-\end{center}
+\caption{Isključivanje prikaza detektovanih ravni}
+\end{figure}
 \item Preko povratnog poziva \texttt{onSessionUpdated} aplikacija se uključuje u obradu svakog frejma i iz njega čita novoprepoznate i ažurirane slike markera.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.88\textwidth]{slike/korak-on-session-updated.png}
-\end{center}
+\caption{Obrada prepoznatih slika markera u povratnom pozivu \texttt{onSessionUpdated}}
+\end{figure}
 \item U vreme izvršavanja traži se dozvola za kameru, budući da se od API nivoa 23 opasne dozvole moraju eksplicitno odobriti od strane korisnika.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.34\textwidth]{slike/korak-dozvola-kamere.jpeg}
-\end{center}
+\caption{Sistemski dijalog za dozvolu pristupa kameri}
+\end{figure}
 \item Aplikacija se pokreće na fizičkom uređaju, sa odštampanim markerom, gde se proverava da li se marker prepoznaje i da li panel stabilno stoji iznad njega.
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.34\textwidth]{slike/korak-prva-ar-scena.jpeg}
-\end{center}
+\caption{Prva AR scena: panel usidren iznad prepoznatog markera}
+\end{figure}
 \end{enumerate}
 
 U narednom poglavlju prikazano je kako se od ovih osnovnih gradivnih elemenata --- sesije, baze slika, sidara i čvorova --- gradi kompletna funkcionalnost AR pregleda učionica.

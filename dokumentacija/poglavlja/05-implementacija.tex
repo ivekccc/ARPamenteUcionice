@@ -6,9 +6,11 @@ Centralna komponenta aplikacije je aktivnost \texttt{AugmentedRealityActivity}, 
 
 Baza referentnih slika gradi se u pozivu \texttt{configureSession}, pri svakom pokretanju AR sesije. Aplikacija iz fascikle \texttt{assets/markers} čita sve PNG datoteke i svaku dodaje u bazu pod imenom koje odgovara nazivu datoteke bez ekstenzije:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.82\textwidth]{slike/implementacija-baza-slika.png}
-\end{center}
+\caption{Izgradnja baze slika markera u pozivu \texttt{configureSession}}
+\end{figure}
 
 Treći parametar funkcije \texttt{addImage} je fizička širina odštampanog markera, konstanta \texttt{MARKER\_PHYSICAL\_WIDTH\_METERS} vrednosti \texttt{0.21f} --- marker se štampa na papiru formata A4, čija je širina 21 centimetar. Zahvaljujući tome ARCore odmah po prepoznavanju tačno procenjuje pozu i udaljenost markera. Svaki poziv \texttt{addImage} obavijen je u \texttt{try/catch} blok: ako neka slika nema dovoljno karakterističnih tačaka, ARCore odbija da je upiše u bazu izuzetkom, pa se takva slika preskače uz upis u dnevnik umesto da obori čitavu sesiju. Ako nijedna slika ne uđe u bazu, korisniku se ispisuje poruka „Nema markera u bazi aplikacije.". Pored konfiguracije sesije, isključen je i podrazumevani prikaz detektovanih ravni postavkom \texttt{planeRenderer.isEnabled = false}, jer aplikacija ravni ne koristi.
 
@@ -16,9 +18,11 @@ Treći parametar funkcije \texttt{addImage} je fizička širina odštampanog mar
 
 Preko povratnog poziva \texttt{onSessionUpdated} aplikacija se uključuje u obradu svakog frejma AR sesije. Iz frejma se funkcijom \texttt{getUpdatedAugmentedImages} čitaju slike čije se stanje u tom frejmu promenilo:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.88\textwidth]{slike/implementacija-on-session-updated.png}
-\end{center}
+\caption{Obrada ažuriranih slika markera u povratnom pozivu \texttt{onSessionUpdated}}
+\end{figure}
 
 Slika u stanju \texttt{TRACKING} aktivno se prati i njena poza je pouzdana, pa se za nju postavlja panel; stanje \texttt{STOPPED} znači da je praćenje trajno prekinuto, pa se svi resursi vezani za tu sliku oslobađaju. Identifikator učionice izvodi se iz imena prepoznate slike: marker \texttt{ucionica\_101} daje identifikator \texttt{101} izrazom \texttt{imageName.substringAfterLast('\_')}. Taj identifikator se zatim koristi u putanji serverskog poziva, a korisniku se u statusnoj traci ispisuje poruka „Učionica 101 --- podaci uživo.".
 
@@ -26,15 +30,19 @@ Slika u stanju \texttt{TRACKING} aktivno se prati i njena poza je pouzdana, pa s
 
 Kada slika prvi put uđe u stanje praćenja, aplikacija za nju kreira sidro u centru markera i obavija ga u čvor scene:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.92\textwidth]{slike/implementacija-sidrenje-panela.png}
-\end{center}
+\caption{Kreiranje sidra i sidrišnog čvora za prepoznati marker}
+\end{figure}
 
 Sidro vezano za pozu slike obezbeđuje da sadržaj ostane pričvršćen za marker dok ARCore precizira svoje razumevanje scene. Sam panel je čvor tipa \texttt{ImageNode} --- ravan pravougaonik na koji se kao tekstura preslikava bitmapa --- veličine 32 puta 24 centimetra u stvarnom prostoru:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.95\textwidth]{slike/implementacija-image-node.png}
-\end{center}
+\caption{Kreiranje i pozicioniranje čvora panela \texttt{ImageNode}}
+\end{figure}
 
 Koordinatni sistem prepoznate slike postavlja X osu duž njene širine, Z osu duž visine, a Y osu upravno na nju, pa se rotacijom od $-90$ stepeni oko X ose pravougaonik panela poravnava sa ravni markera. Pomeraj duž negativne Z ose, izračunat prilikom prepoznavanja, iznosi polovinu visine markera (\texttt{extentZ / 2}) uvećanu za razmak od tri centimetra i polovinu visine samog panela --- time panel lebdi tačno iznad gornje ivice markera, odnosno iznad vrata učionice.
 
@@ -42,9 +50,11 @@ Koordinatni sistem prepoznate slike postavlja X osu duž njene širine, Z osu du
 
 Sadržaj panela ne modeluje se kao 3D geometrija, već se koristi postojeći sistem Android rasporeda: klasa \texttt{PanelBitmapRenderer} naduvava XML raspored \texttt{view\_room\_panel.xml}, popunjava ga podacima i iscrtava u bitmapu. Panel prikazuje naziv učionice, red zauzetosti („Zauzeta do 10:00 --- Pametna okruženja" ili „Slobodna"), tri reda sa vrednostima temperature, buke i ugljen-dioksida uz kružne indikatore obojene prema statusu (zeleno za \texttt{OK}, žuto za \texttt{WARNING}, crveno za \texttt{CRITICAL}) i red sa preporukom servera, koji se pri kritičnom statusu takođe boji crveno. Popunjeni raspored se zatim meri i iscrtava u fiksnoj rezoluciji:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.95\textwidth]{slike/implementacija-iscrtavanje-panela.png}
-\end{center}
+\caption{Iscrtavanje rasporeda panela u bitmapu fiksne rezolucije}
+\end{figure}
 
 Konstante \texttt{BITMAP\_WIDTH} i \texttt{BITMAP\_HEIGHT} iznose 1024 i 768 piksela, što pri odnosu stranica 4:3 odgovara fizičkim dimenzijama panela od 32 puta 24 centimetra. Kada za već prikazanu učionicu stignu novi podaci, čvor se ne stvara iznova: dovoljno je postojećem \texttt{ImageNode} objektu dodeliti novu vrednost svojstva \texttt{bitmap}, čime SceneView zamenjuje teksturu na mestu, bez trzaja u sceni.
 
@@ -52,17 +62,21 @@ Konstante \texttt{BITMAP\_WIDTH} i \texttt{BITMAP\_HEIGHT} iznose 1024 i 768 pik
 
 Komunikacija sa serverom izvedena je bibliotekom \textit{Retrofit} uz \textit{kotlinx-serialization} konvertor. Mrežni interfejs sadrži dve suspendovane funkcije:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.85\textwidth]{slike/implementacija-room-api-service.png}
-\end{center}
+\caption{Mrežni interfejs \texttt{RoomApiService} sa suspendovanim funkcijama}
+\end{figure}
 
 Odgovori servera preslikavaju se u tipizirane objekte: klasa \texttt{RoomResponse} označena anotacijom \texttt{@Serializable} sadrži tačno ona polja koja server vraća (naziv, zauzetost, raspored, vrednosti senzora, statuse i preporuku), pri čemu su statusi modelovani nabrajanjem \texttt{SensorStatus} sa vrednostima \texttt{OK}, \texttt{WARNING} i \texttt{CRITICAL}. Adresa servera zadata je u kodu vrednošću \texttt{http://localhost:8080}: telefon je tokom razvoja i demonstracije povezan sa računarom USB kablom, a komanda \texttt{adb reverse tcp:8080 tcp:8080} preusmerava taj port telefona na server koji radi na računaru.
 
 Za svaku praćenu učionicu pokreće se po jedan posao (\texttt{Job}) u opsegu \texttt{lifecycleScope}, koji u petlji preuzima stanje i osvežava panel na svake tri sekunde:
 
-\begin{center}
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.95\textwidth]{slike/implementacija-petlja-osvezavanja.png}
-\end{center}
+\caption{Petlja periodičnog preuzimanja podataka i osvežavanja panela}
+\end{figure}
 
 Mrežne greške ne prekidaju petlju: korisniku se ispisuje poruka o nedostupnom serveru, a sledeća iteracija ponovo pokušava preuzimanje, pa se panel sam oporavlja čim server postane dostupan. Posao se otkazuje čim praćenje slike prestane, kao i u metodi \texttt{onPause}, čime se sprečava mrežni saobraćaj dok je aplikacija u pozadini; u metodi \texttt{onResume} poslovi se ponovo pokreću za sve učionice koje su i dalje usidrene.
 
