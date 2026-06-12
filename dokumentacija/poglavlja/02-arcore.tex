@@ -48,6 +48,12 @@ Pored tri osnovne sposobnosti, za praktičan rad važno je još nekoliko pojmova
 
 Virtuelni sadržaj se za stvarni svet vezuje pomoću sidara (engl. \textit{anchor}). Sidro predstavlja fiksnu pozu u prostoru koju platforma aktivno održava: kako \textit{ARCore} vremenom prikuplja nove informacije i precizira svoje razumevanje scene, on koriguje i položaje sidara, pa sadržaj pričvršćen za njih ostaje „prikovan" za isto mesto u stvarnom svetu umesto da postepeno otpluta. Sidra se po pravilu vezuju za objekte praćenja (engl. \textit{trackable}) --- ravni, karakteristične tačke i druge elemente koje platforma prepoznaje i prati kroz vreme.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{slike/sidro-i-objekti-pracenja.jpg}
+\caption{Sidro vezano za prepoznatu ravan: poza sidra (položaj i orijentacija) određuje gde se virtuelni objekat iscrtava u prostoru}
+\end{figure}
+
 U praksi se \textit{ARCore} koristi ili neposredno, kroz njegov izvorni programski interfejs, ili kroz biblioteke višeg nivoa koje pojednostavljuju iscrtavanje trodimenzionalnog sadržaja. Među njima se izdvaja \textit{SceneView}, biblioteka koja objedinjuje \textit{ARCore} i grafički pogon \textit{Filament}, pa programer umesto niskog grafičkog koda radi sa scenom, čvorovima i modelima, što znatno ubrzava razvoj.
 
 \subsection{Praćenje slika (Augmented Images)}
