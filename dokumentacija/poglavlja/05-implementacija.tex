@@ -60,24 +60,9 @@ Odgovori servera preslikavaju se u tipizirane objekte: klasa \texttt{RoomRespons
 
 Za svaku praćenu učionicu pokreće se po jedan posao (\texttt{Job}) u opsegu \texttt{lifecycleScope}, koji u petlji preuzima stanje i osvežava panel na svake tri sekunde:
 
-\begin{verbatim}
-pollingJobs[imageName] = lifecycleScope.launch {
-    while (isActive) {
-        try {
-            val room = roomApiService.getRoom(roomId)
-            val panelBitmap = panelBitmapRenderer.render(
-                this@AugmentedRealityActivity, room
-            )
-            updatePanel(imageName, panelBitmap)
-        } catch (exception: IOException) {
-            setStatusText("Server nije dostupan. Proveri adresu servera.")
-        } catch (exception: HttpException) {
-            setStatusText("Server nije dostupan. Proveri adresu servera.")
-        }
-        delay(POLLING_INTERVAL_MILLISECONDS)
-    }
-}
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{slike/implementacija-petlja-osvezavanja.png}
+\end{center}
 
 Mrežne greške ne prekidaju petlju: korisniku se ispisuje poruka o nedostupnom serveru, a sledeća iteracija ponovo pokušava preuzimanje, pa se panel sam oporavlja čim server postane dostupan. Posao se otkazuje čim praćenje slike prestane, kao i u metodi \texttt{onPause}, čime se sprečava mrežni saobraćaj dok je aplikacija u pozadini; u metodi \texttt{onResume} poslovi se ponovo pokreću za sve učionice koje su i dalje usidrene.
 
