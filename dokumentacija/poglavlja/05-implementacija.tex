@@ -26,14 +26,9 @@ Slika u stanju \texttt{TRACKING} aktivno se prati i njena poza je pouzdana, pa s
 
 Kada slika prvi put uđe u stanje praćenja, aplikacija za nju kreira sidro u centru markera i obavija ga u čvor scene:
 
-\begin{verbatim}
-val anchor = augmentedImage.createAnchor(augmentedImage.centerPose)
-val anchorNode = AnchorNode(binding.sceneView.engine, anchor)
-binding.sceneView.addChildNode(anchorNode)
-panelOffsets[imageName] =
-    -(augmentedImage.extentZ / 2f + PANEL_BOTTOM_GAP_METERS +
-        PANEL_HEIGHT_METERS / 2f)
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.92\textwidth]{slike/implementacija-sidrenje-panela.png}
+\end{center}
 
 Sidro vezano za pozu slike obezbeđuje da sadržaj ostane pričvršćen za marker dok ARCore precizira svoje razumevanje scene. Sam panel je čvor tipa \texttt{ImageNode} --- ravan pravougaonik na koji se kao tekstura preslikava bitmapa --- veličine 32 puta 24 centimetra u stvarnom prostoru:
 
