@@ -16,18 +16,9 @@ Treći parametar funkcije \texttt{addImage} je fizička širina odštampanog mar
 
 Preko povratnog poziva \texttt{onSessionUpdated} aplikacija se uključuje u obradu svakog frejma AR sesije. Iz frejma se funkcijom \texttt{getUpdatedAugmentedImages} čitaju slike čije se stanje u tom frejmu promenilo:
 
-\begin{verbatim}
-onSessionUpdated = { _, frame ->
-    frame.getUpdatedAugmentedImages().forEach { augmentedImage ->
-        when {
-            augmentedImage.isTracking ->
-                onAugmentedImageTracking(augmentedImage)
-            augmentedImage.trackingState == TrackingState.STOPPED ->
-                onAugmentedImageStopped(augmentedImage.name)
-        }
-    }
-}
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.88\textwidth]{slike/implementacija-on-session-updated.png}
+\end{center}
 
 Slika u stanju \texttt{TRACKING} aktivno se prati i njena poza je pouzdana, pa se za nju postavlja panel; stanje \texttt{STOPPED} znači da je praćenje trajno prekinuto, pa se svi resursi vezani za tu sliku oslobađaju. Identifikator učionice izvodi se iz imena prepoznate slike: marker \texttt{ucionica\_101} daje identifikator \texttt{101} izrazom \texttt{imageName.substringAfterLast('\_')}. Taj identifikator se zatim koristi u putanji serverskog poziva, a korisniku se u statusnoj traci ispisuje poruka „Učionica 101 --- podaci uživo.".
 
