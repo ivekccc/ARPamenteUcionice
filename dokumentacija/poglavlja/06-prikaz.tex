@@ -26,8 +26,6 @@ Ekran sa uputstvom sadrži četiri numerisana koraka prikazana u vidu zasebnih k
 
 Nakon pokretanja AR pregleda otvara se ekran na kome slika sa kamere ispunjava celu površinu prikaza. Na vrhu se nalazi tamna traka sa dugmetom za zatvaranje i naslovom aplikacije, a ispod nje statusna poruka u obliku pilule koja u početnom stanju glasi \texttt{Pronađi marker učionice.} i koja korisnika tokom rada vodi kroz proces. U ovoj fazi korisnik polako pomera telefon dok kamera ne obuhvati odštampani marker na vratima učionice.
 
-\snimakekrana{slike/04-ar-prepoznavanje.png}{AR ekran pre prepoznavanja markera}
-
 \subsection{AR ekran --- usidreni panel}
 
 Čim ARCore prepozna marker, iznad njegove gornje ivice pojavljuje se usidreni panel sa podacima o učionici, a statusna poruka se menja u \texttt{Učionica 101 — podaci uživo.}. Panel prikazuje naziv prostorije, red zauzetosti sa nazivom tekućeg časa i vremenom do kojeg je učionica zauzeta, tri reda sa temperaturom, bukom i ugljen-dioksidom uz indikatore obojene prema statusu i preporuku servera. Panel ostaje pričvršćen za marker dok se korisnik kreće: može mu se prići, odmaći se ili ga posmatrati sa strane, a sadržaj se osvežava na svake tri sekunde svežim podacima sa servera.
@@ -37,7 +35,5 @@ Nakon pokretanja AR pregleda otvara se ekran na kome slika sa kamere ispunjava c
 \subsection{Demonstracija sa kontrolnom tablom}
 
 Završni deo demonstracije povezuje sve tri komponente sistema. Prezenter na kontrolnoj tabli pomeri klizač --- na primer, podigne vrednost ugljen-dioksida iznad kritičnog praga --- i promena se posle zadrška od 300 milisekundi šalje serveru. Već pri sledećem preuzimanju, najkasnije tri sekunde kasnije, AR panel na telefonu prikazuje novu vrednost, indikator kvaliteta vazduha prelazi u crveno i ispisuje se preporuka \texttt{Hitno provetriti prostoriju.}, bez ijedne akcije na samom telefonu.
-
-\snimakekrana{slike/06-kontrolna-tabla-demo.png}{Promena na kontrolnoj tabli odražena na AR panelu}
 
 Prikazani ekrani zajedno čine zaokruženu celinu: od početnog ekrana i uputstva, preko prepoznavanja markera, do živog panela koji u realnom vremenu odražava stanje pametnog okruženja. Demonstracioni tok --- klizač na kontrolnoj tabli, upis na serveru, osvežen panel u proširenoj stvarnosti u roku od tri sekunde --- pokazuje da je arhitektura spremna i za stvarnu primenu: dovoljno je da umesto kontrolne table iste krajnje tačke pozivaju pravi senzori ugrađeni u učionice, bez ijedne izmene u AR aplikaciji. Kao moguća proširenja u budućem radu izdvajaju se povezivanje stvarnih senzora temperature, buke i ugljen-dioksida preko postojećeg interfejsa, dodavanje markera za veći broj učionica i zgrada, kao i interakcija na samom panelu, poput rezervacije slobodne učionice dodirom.
