@@ -26,6 +26,12 @@ Pored sopstvenog položaja, uređaj mora da razume i prostor oko sebe. \textit{A
 
 Važan mehanizam koji ovaj model čini upotrebljivim iz perspektive korisnika jeste testiranje pogodaka (engl. \textit{hit-testing}). Kada korisnik dodirne ekran, \textit{ARCore} iz položaja kamere kroz dodirnutu tačku na ekranu pušta zamišljeni zrak u trodimenzionalni prostor i izračunava gde taj zrak seče prepoznate ravni ili druge elemente okruženja. Rezultat je precizna tačka u prostoru, sa položajem i orijentacijom, na koju aplikacija može da postavi virtuelni sadržaj. Ovaj mehanizam je temelj velikog broja AR aplikacija, jer svaki dodir korisnika pretvara u tačku stvarnog prostora na koju se može vezati digitalni sadržaj.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{slike/testiranje-pogodaka.jpeg}
+\caption{Testiranje pogodaka: zrak iz kamere uređaja seče prepoznatu ravan u tački pogotka}
+\end{figure}
+
 \subsection{Procena osvetljenja}
 
 Treća sposobnost platforme odnosi se na svetlost. Virtuelni objekat iscrtan bez obzira na uslove osvetljenja u prostoriji odmah odaje svoju veštačku prirodu: previše je svetao u mračnoj sobi ili bezličan na jakom suncu. \textit{ARCore} zato iz slike sa kamere procenjuje karakteristike osvetljenja scene --- prosečan intenzitet, boju svetlosti, a u režimu \textit{Environmental HDR} i pravac glavnog izvora sveta te okolinsko osvetljenje pogodno za realistične odsjaje. Aplikacija te podatke koristi prilikom senčenja virtuelnih objekata, pa oni dobijaju senke i odsjaje usklađene sa stvarnim okruženjem, što značajno doprinosi utisku da objekat zaista pripada sceni.
