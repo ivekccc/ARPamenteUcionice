@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="application_name">AR Pametne Učionice</string>
+    <string name="home_headline">AR Pametne Učionice</string>
+    <string name="home_supporting_text">Uperi telefon u marker na vratima učionice i prati uslove uživo.</string>
+    <string name="home_server_address_hint">Adresa servera</string>
+    <string name="home_start_augmented_reality">Pokreni AR pregled</string>
+    <string name="home_instructions">Uputstvo</string>
+    <string name="instructions_title">Uputstvo</string>
+    <string name="instructions_back">Nazad</string>
+    <string name="instructions_step_one">Pronađi marker na vratima učionice.</string>
+    <string name="instructions_step_two">Uperi kameru telefona u marker.</string>
+    <string name="instructions_step_three">Iznad markera se prikazuje panel sa živim podacima.</string>
+    <string name="instructions_step_four">Boje pokazuju status: zeleno, žuto, crveno.</string>
+    <string name="instructions_legend_ok">u redu</string>
+    <string name="instructions_legend_warning">upozorenje</string>
+    <string name="instructions_legend_critical">kritično</string>
+    <string name="augmented_reality_title">AR pregled</string>
+    <string name="augmented_reality_close">Zatvori</string>
+    <string name="panel_label_temperature">Temperatura</string>
+    <string name="panel_label_noise">Buka</string>
+    <string name="panel_label_carbon_dioxide">CO₂</string>
+    <string name="panel_unit_temperature">°C</string>
+    <string name="panel_unit_noise">dB</string>
+    <string name="panel_unit_carbon_dioxide">ppm</string>
+</resources>

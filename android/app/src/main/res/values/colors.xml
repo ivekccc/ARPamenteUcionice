@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0E7490</color>
+    <color name="colorPrimaryDark">#155E75</color>
+    <color name="colorSecondary">#FBBF24</color>
+    <color name="backgroundLight">#F8FAFC</color>
+    <color name="textDark">#0F172A</color>
+    <color name="textLight">#FFFFFF</color>
+    <color name="overlayDark">#99000000</color>
+    <color name="statusOk">#0D9488</color>
+    <color name="statusWarning">#D97706</color>
+    <color name="statusCritical">#DC2626</color>
+    <color name="textSupporting">#475569</color>
+    <color name="cardStroke">#E2E8F0</color>
+    <color name="panelBackground">#0F172A</color>
+    <color name="panelBorder">#334155</color>
+    <color name="panelOccupancyText">#CBD5E1</color>
+    <color name="panelLabelText">#E2E8F0</color>
+    <color name="panelUnitText">#94A3B8</color>
+    <color name="panelFreeText">#5EEAD4</color>
+    <color name="panelCriticalRecommendationText">#FCA5A5</color>
+    <color name="panelValueOk">#2DD4BF</color>
+    <color name="panelValueWarning">#FBBF24</color>
+    <color name="panelValueCritical">#F87171</color>
+</resources>

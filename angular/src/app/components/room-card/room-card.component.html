@@ -1,0 +1,147 @@
+<article class="card">
+  <div class="card-header">
+    <h2 class="room-name">{{ displayedRoom().roomName }}</h2>
+    <button
+      type="button"
+      class="occupancy-toggle"
+      [class.occupied]="occupied()"
+      role="switch"
+      [attr.aria-checked]="occupied()"
+      [attr.aria-label]="'Zauzetost učionice ' + displayedRoom().roomName"
+      (click)="toggleOccupied()"
+    >
+      @if (occupied()) {
+        <span class="toggle-dot"></span>
+        ZAUZETA
+      } @else {
+        SLOBODNA
+      }
+    </button>
+  </div>
+
+  <p class="occupancy-line">
+    @if (displayedRoom().occupied) {
+      Zauzeta do <span class="occupancy-time">{{ displayedRoom().occupiedUntil }}</span> — {{ displayedRoom().currentClassName }}
+    } @else {
+      Slobodna
+    }
+  </p>
+
+  <div class="divider"></div>
+
+  <div class="slider-section">
+    <div class="slider-row">
+      <div class="slider-label-line">
+        <span class="metric-label">TEMPERATURA</span>
+        <span class="metric-reading">
+          <span class="readout-value" [class]="statusClass(displayedRoom().temperatureStatus)">{{ temperatureReadout() }}</span>
+          <span class="readout-unit">°C</span>
+          <span class="status-pill" [class]="statusClass(displayedRoom().temperatureStatus)">
+            @switch (displayedRoom().temperatureStatus) {
+              @case ('OK') { OK }
+              @case ('WARNING') { UPOZORENJE }
+              @case ('CRITICAL') { KRITIČNO }
+            }
+          </span>
+        </span>
+      </div>
+      <input
+        type="range"
+        min="15"
+        max="35"
+        step="0.1"
+        [value]="temperatureCelsius()"
+        [style.--slider-fill]="temperatureFillPercentage() + '%'"
+        [style.--slider-color]="statusColorToken(displayedRoom().temperatureStatus)"
+        [attr.aria-label]="'Temperatura u učionici ' + displayedRoom().roomName"
+        (input)="changeTemperature($event)"
+      />
+      <div class="slider-caption">
+        <span>15.0</span>
+        <span>35.0</span>
+      </div>
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-label-line">
+        <span class="metric-label">BUKA</span>
+        <span class="metric-reading">
+          <span class="readout-value" [class]="statusClass(displayedRoom().noiseStatus)">{{ noiseReadout() }}</span>
+          <span class="readout-unit">dB</span>
+          <span class="status-pill" [class]="statusClass(displayedRoom().noiseStatus)">
+            @switch (displayedRoom().noiseStatus) {
+              @case ('OK') { OK }
+              @case ('WARNING') { UPOZORENJE }
+              @case ('CRITICAL') { KRITIČNO }
+            }
+          </span>
+        </span>
+      </div>
+      <input
+        type="range"
+        min="30"
+        max="90"
+        step="1"
+        [value]="noiseDecibels()"
+        [style.--slider-fill]="noiseFillPercentage() + '%'"
+        [style.--slider-color]="statusColorToken(displayedRoom().noiseStatus)"
+        [attr.aria-label]="'Buka u učionici ' + displayedRoom().roomName"
+        (input)="changeNoise($event)"
+      />
+      <div class="slider-caption">
+        <span>30</span>
+        <span>90</span>
+      </div>
+    </div>
+
+    <div class="slider-row">
+      <div class="slider-label-line">
+        <span class="metric-label">CO₂</span>
+        <span class="metric-reading">
+          <span class="readout-value" [class]="statusClass(displayedRoom().airQualityStatus)">{{ carbonDioxideReadout() }}</span>
+          <span class="readout-unit">ppm</span>
+          <span class="status-pill" [class]="statusClass(displayedRoom().airQualityStatus)">
+            @switch (displayedRoom().airQualityStatus) {
+              @case ('OK') { OK }
+              @case ('WARNING') { UPOZORENJE }
+              @case ('CRITICAL') { KRITIČNO }
+            }
+          </span>
+        </span>
+      </div>
+      <input
+        type="range"
+        min="400"
+        max="2000"
+        step="10"
+        [value]="carbonDioxidePpm()"
+        [style.--slider-fill]="carbonDioxideFillPercentage() + '%'"
+        [style.--slider-color]="statusColorToken(displayedRoom().airQualityStatus)"
+        [attr.aria-label]="'Nivo CO2 u učionici ' + displayedRoom().roomName"
+        (input)="changeCarbonDioxide($event)"
+      />
+      <div class="slider-caption">
+        <span>400</span>
+        <span>2000</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="schedule">
+    <span class="section-label">RASPORED</span>
+    @for (entry of displayedRoom().schedule; track entry.startTime) {
+      <div class="schedule-entry" [class.active]="displayedRoom().currentClassName === entry.className">
+        <span class="schedule-time">{{ entry.startTime }}–{{ entry.endTime }}</span>
+        <span class="schedule-class">{{ entry.className }}</span>
+        <span class="schedule-lecturer">{{ entry.lecturerName }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="recommendation" [class]="statusClass(worstStatus())">
+    <span class="recommendation-bar"></span>
+    <p class="recommendation-text">{{ displayedRoom().recommendation }}</p>
+  </div>
+</article>

@@ -1,0 +1,29 @@
+<header class="app-header">
+  <div class="header-content">
+    <h1 class="header-title">
+      <span class="accent-tick"></span>
+      Pametni kampus — kontrolna tabla
+    </h1>
+    <div class="header-status">
+      <span class="clock">{{ currentTime() }}</span>
+      <span class="connection">
+        <span class="connection-dot" [class.connected]="connectionHealthy()" [class.disconnected]="!connectionHealthy()"></span>
+        <span class="connection-label">
+          @if (connectionHealthy()) {
+            Povezano
+          } @else {
+            Nije povezano
+          }
+        </span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<main class="page-content">
+  <div class="room-grid">
+    @for (room of rooms(); track room.roomId) {
+      <app-room-card class="room-card" [room]="room" />
+    }
+  </div>
+</main>

@@ -1,0 +1,74 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage[script=Cyrillic]{serbian}
+\setmainfont{Times New Roman}[Ligatures=TeX]
+\setmonofont{Courier New}
+\newfontfamily\cyrillicfont{Times New Roman}[Script=Cyrillic,Ligatures=TeX]
+\newfontfamily\cyrillicfonttt{Courier New}[Script=Default]
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+
+\setlength{\parskip}{0.25em}
+\setlength{\emergencystretch}{3em}
+
+\makeatletter
+\def\verbatim@font{\normalfont\ttfamily\small}
+\makeatother
+
+\newcommand{\snimakekrana}[2]{%
+\begin{figure}[H]
+\centering
+\fbox{\begin{minipage}[c][8.5cm][c]{0.62\textwidth}
+\centering
+Простор за снимак екрана\\
+\texttt{#1}
+\end{minipage}}
+\caption{#2}
+\end{figure}}
+
+\begin{document}
+
+\begin{titlepage}
+\centering
+{\large Универзитет у Београду}\\[0.4em]
+{\Large \textbf{Факултет организационих наука}}\\[1em]
+{\large Мастер академске студије}\\[0.4em]
+{\large Студијски програм: Електронско пословање}\\[0.4em]
+{\large Модул: Технологије електронског пословања}
+
+\vspace{4.5cm}
+
+{\large Пројектна документација}\\[1.2em]
+{\LARGE \textbf{АР паметне учионице --- приказ контекстуалних информација из паметног окружења у проширеној стварности}}
+
+\vfill
+
+\begin{flushright}
+{\large \textbf{Студент:}}\\[0.3em]
+{\large Иван Јелисавчић}\\[0.3em]
+{\large Број индекса: 2025/3263}
+\end{flushright}
+
+\vspace{1.8cm}
+
+{\large Јун 2026.}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\input{poglavlja/01-uvod}
+\input{poglavlja/02-arcore}
+\input{poglavlja/03-arhitektura}
+\input{poglavlja/04-razvoj}
+\input{poglavlja/05-implementacija}
+\input{poglavlja/06-prikaz}
+
+\end{document}

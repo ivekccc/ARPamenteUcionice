@@ -1,0 +1,17 @@
+.DS_Store
+.idea/
+.vscode/
+
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captures/
+
+angular/node_modules/
+angular/dist/
+angular/.angular/
+
+server/.gradle/
+server/build/
+server/bin/

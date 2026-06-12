@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="1024px"
+    android:layout_height="768px"
+    android:background="@drawable/background_room_panel"
+    android:orientation="vertical"
+    android:padding="48px">
+
+    <TextView
+        android:id="@+id/panelRoomName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/textLight"
+        android:textSize="64px"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/panelOccupancyLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12px"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/panelOccupancyText"
+        android:textSize="44px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="28px"
+        android:layout_marginBottom="28px"
+        android:background="@drawable/shape_panel_divider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/panelTemperatureDot"
+                android:layout_width="36px"
+                android:layout_height="36px"
+                android:background="@drawable/shape_status_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24px"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/panel_label_temperature"
+                android:textColor="@color/panelLabelText"
+                android:textSize="48px" />
+
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/panelTemperatureValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFeatureSettings="tnum"
+                android:textColor="@color/panelValueOk"
+                android:textSize="72px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12px"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/panel_unit_temperature"
+                android:textColor="@color/panelUnitText"
+                android:textSize="44px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/panelNoiseDot"
+                android:layout_width="36px"
+                android:layout_height="36px"
+                android:background="@drawable/shape_status_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24px"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/panel_label_noise"
+                android:textColor="@color/panelLabelText"
+                android:textSize="48px" />
+
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/panelNoiseValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFeatureSettings="tnum"
+                android:textColor="@color/panelValueOk"
+                android:textSize="72px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12px"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/panel_unit_noise"
+                android:textColor="@color/panelUnitText"
+                android:textSize="44px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_weight="1"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/panelCarbonDioxideDot"
+                android:layout_width="36px"
+                android:layout_height="36px"
+                android:background="@drawable/shape_status_dot" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24px"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/panel_label_carbon_dioxide"
+                android:textColor="@color/panelLabelText"
+                android:textSize="48px" />
+
+            <View
+                android:layout_width="0px"
+                android:layout_height="0px"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/panelCarbonDioxideValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFeatureSettings="tnum"
+                android:textColor="@color/panelValueOk"
+                android:textSize="72px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12px"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/panel_unit_carbon_dioxide"
+                android:textColor="@color/panelUnitText"
+                android:textSize="44px" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="28px"
+        android:layout_marginBottom="28px"
+        android:background="@drawable/shape_panel_divider" />
+
+    <TextView
+        android:id="@+id/panelRecommendation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/panelLabelText"
+        android:textSize="44px" />
+</LinearLayout>
