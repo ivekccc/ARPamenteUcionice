@@ -88,6 +88,10 @@ Kada su okruženje, zavisnosti i manifest spremni, do prve funkcionalne AR scene
 
 \begin{enumerate}
 \item U XML raspored aktivnosti dodaje se komponenta \texttt{ARSceneView}, koja istovremeno prikazuje sliku sa kamere i renderovane 3D objekte.
+
+\begin{center}
+\includegraphics[width=0.72\textwidth]{slike/korak-arsceneview-xml.png}
+\end{center}
 \item Pogled na scenu povezuje se sa životnim ciklusom aktivnosti dodelom \texttt{sceneView.lifecycle = lifecycle}, čime se AR sesija automatski pauzira i nastavlja zajedno sa aktivnošću.
 \item U pozivu \texttt{configureSession} konfiguriše se sesija: gradi se baza slika \texttt{AugmentedImageDatabase} sa markerima učionica i dodeljuje polju \texttt{config.augmentedImageDatabase}, čime se uključuje praćenje slika opisano u odeljku 2.5.
 \item Podrazumevani prikaz detektovanih ravni isključuje se postavkom svojstva \texttt{isEnabled} komponente \texttt{planeRenderer} na vrednost netačno, jer aplikaciji ravni nisu potrebne, a istaknute površine bi vizuelno opterećivale ekran.
