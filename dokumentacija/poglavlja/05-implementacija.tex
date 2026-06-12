@@ -56,7 +56,7 @@ Komunikacija sa serverom izvedena je bibliotekom \textit{Retrofit} uz \textit{ko
 \includegraphics[width=0.85\textwidth]{slike/implementacija-room-api-service.png}
 \end{center}
 
-Odgovori servera preslikavaju se u tipizirane objekte: klasa \texttt{RoomResponse} označena anotacijom \texttt{@Serializable} sadrži tačno ona polja koja server vraća (naziv, zauzetost, raspored, vrednosti senzora, statuse i preporuku), pri čemu su statusi modelovani nabrajanjem \texttt{SensorStatus} sa vrednostima \texttt{OK}, \texttt{WARNING} i \texttt{CRITICAL}. Adresa servera čita se iz deljenih podešavanja (\texttt{SharedPreferences}), gde je upisuje početni ekran.
+Odgovori servera preslikavaju se u tipizirane objekte: klasa \texttt{RoomResponse} označena anotacijom \texttt{@Serializable} sadrži tačno ona polja koja server vraća (naziv, zauzetost, raspored, vrednosti senzora, statuse i preporuku), pri čemu su statusi modelovani nabrajanjem \texttt{SensorStatus} sa vrednostima \texttt{OK}, \texttt{WARNING} i \texttt{CRITICAL}. Adresa servera zadata je u kodu vrednošću \texttt{http://localhost:8080}: telefon je tokom razvoja i demonstracije povezan sa računarom USB kablom, a komanda \texttt{adb reverse tcp:8080 tcp:8080} preusmerava taj port telefona na server koji radi na računaru.
 
 Za svaku praćenu učionicu pokreće se po jedan posao (\texttt{Job}) u opsegu \texttt{lifecycleScope}, koji u petlji preuzima stanje i osvežava panel na svake tri sekunde:
 
