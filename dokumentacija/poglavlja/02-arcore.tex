@@ -36,6 +36,12 @@ Važan mehanizam koji ovaj model čini upotrebljivim iz perspektive korisnika je
 
 Treća sposobnost platforme odnosi se na svetlost. Virtuelni objekat iscrtan bez obzira na uslove osvetljenja u prostoriji odmah odaje svoju veštačku prirodu: previše je svetao u mračnoj sobi ili bezličan na jakom suncu. \textit{ARCore} zato iz slike sa kamere procenjuje karakteristike osvetljenja scene --- prosečan intenzitet, boju svetlosti, a u režimu \textit{Environmental HDR} i pravac glavnog izvora sveta te okolinsko osvetljenje pogodno za realistične odsjaje. Aplikacija te podatke koristi prilikom senčenja virtuelnih objekata, pa oni dobijaju senke i odsjaje usklađene sa stvarnim okruženjem, što značajno doprinosi utisku da objekat zaista pripada sceni.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{slike/procena-osvetljenja.png}
+\caption{Komponente režima \textit{Environmental HDR}: glavno direkciono svetlo, ambijentalno osvetljenje i \textit{HDR} mapa okruženja zajedno daju realistično osenčen objekat}
+\end{figure}
+
 \subsection{Dubina, sidra i objekti praćenja}
 
 Pored tri osnovne sposobnosti, za praktičan rad važno je još nekoliko pojmova. \textit{Depth API} omogućava da \textit{ARCore}, koristeći samo jednu običnu kameru, za svaki piksel slike proceni udaljenost od uređaja i tako izgradi dubinsku mapu scene. Zahvaljujući njoj, virtuelni sadržaj se može postavljati na proizvoljne površine, a ne samo na prepoznate ravni, dok virtuelni objekti mogu biti zaklonjeni stvarnim predmetima koji se nalaze ispred njih (okluzija), što dodatno pojačava uverljivost prikaza.
