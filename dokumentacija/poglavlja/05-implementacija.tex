@@ -42,19 +42,9 @@ Koordinatni sistem prepoznate slike postavlja X osu duž njene širine, Z osu du
 
 Sadržaj panela ne modeluje se kao 3D geometrija, već se koristi postojeći sistem Android rasporeda: klasa \texttt{PanelBitmapRenderer} naduvava XML raspored \texttt{view\_room\_panel.xml}, popunjava ga podacima i iscrtava u bitmapu. Panel prikazuje naziv učionice, red zauzetosti („Zauzeta do 10:00 --- Pametna okruženja" ili „Slobodna"), tri reda sa vrednostima temperature, buke i ugljen-dioksida uz kružne indikatore obojene prema statusu (zeleno za \texttt{OK}, žuto za \texttt{WARNING}, crveno za \texttt{CRITICAL}) i red sa preporukom servera, koji se pri kritičnom statusu takođe boji crveno. Popunjeni raspored se zatim meri i iscrtava u fiksnoj rezoluciji:
 
-\begin{verbatim}
-panelView.measure(
-    View.MeasureSpec.makeMeasureSpec(
-        BITMAP_WIDTH, View.MeasureSpec.EXACTLY),
-    View.MeasureSpec.makeMeasureSpec(
-        BITMAP_HEIGHT, View.MeasureSpec.EXACTLY)
-)
-panelView.layout(0, 0, BITMAP_WIDTH, BITMAP_HEIGHT)
-val bitmap = Bitmap.createBitmap(
-    BITMAP_WIDTH, BITMAP_HEIGHT, Bitmap.Config.ARGB_8888
-)
-panelView.draw(Canvas(bitmap))
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{slike/implementacija-iscrtavanje-panela.png}
+\end{center}
 
 Konstante \texttt{BITMAP\_WIDTH} i \texttt{BITMAP\_HEIGHT} iznose 1024 i 768 piksela, što pri odnosu stranica 4:3 odgovara fizičkim dimenzijama panela od 32 puta 24 centimetra. Kada za već prikazanu učionicu stignu novi podaci, čvor se ne stvara iznova: dovoljno je postojećem \texttt{ImageNode} objektu dodeliti novu vrednost svojstva \texttt{bitmap}, čime SceneView zamenjuje teksturu na mestu, bez trzaja u sceni.
 
