@@ -1,10 +1,10 @@
-\section{Имплементација АР прегледа учионица}
+\section{Implementacija AR pregleda učionica}
 
-Централна компонента апликације је активност \texttt{AugmentedRealityActivity}, у којој је смештена целокупна АР логика. Активност користи компоненту \texttt{ARSceneView} из библиотеке SceneView, која обједињује АР сесију библиотеке ARCore и графички приказ виртуелних објеката преко слике са камере. Пошто у једној сесији може истовремено да буде праћено више учионица, активност све ресурсе води у мапама кључаним именом препознате слике: мапу сидришних чворова, мапу панела и мапу послова за периодично преузимање података. У наставку је описано како апликација користи кључне функције ARCore и SceneView интерфејса: од конфигурације сесије и базе маркера, преко препознавања учионице и сидрења панела, до исцртавања података и ослобађања ресурса.
+Centralna komponenta aplikacije je aktivnost \texttt{AugmentedRealityActivity}, u kojoj je smeštena celokupna AR logika. Aktivnost koristi komponentu \texttt{ARSceneView} iz biblioteke SceneView, koja objedinjuje AR sesiju biblioteke ARCore i grafički prikaz virtuelnih objekata preko slike sa kamere. Pošto u jednoj sesiji može istovremeno da bude praćeno više učionica, aktivnost sve resurse vodi u mapama ključanim imenom prepoznate slike: mapu sidrišnih čvorova, mapu panela i mapu poslova za periodično preuzimanje podataka. U nastavku je opisano kako aplikacija koristi ključne funkcije ARCore i SceneView interfejsa: od konfiguracije sesije i baze markera, preko prepoznavanja učionice i sidrenja panela, do iscrtavanja podataka i oslobađanja resursa.
 
-\subsection{Конфигурација сесије и базе слика}
+\subsection{Konfiguracija sesije i baze slika}
 
-База референтних слика гради се у позиву \texttt{configureSession}, при сваком покретању АР сесије. Апликација из фасцикле \texttt{assets/markers} чита све PNG датотеке и сваку додаје у базу под именом које одговара називу датотеке без екстензије:
+Baza referentnih slika gradi se u pozivu \texttt{configureSession}, pri svakom pokretanju AR sesije. Aplikacija iz fascikle \texttt{assets/markers} čita sve PNG datoteke i svaku dodaje u bazu pod imenom koje odgovara nazivu datoteke bez ekstenzije:
 
 \begin{verbatim}
 configureSession { session, config ->
@@ -33,11 +33,11 @@ configureSession { session, config ->
 }
 \end{verbatim}
 
-Трећи параметар функције \texttt{addImage} је физичка ширина одштампаног маркера, константа \texttt{MARKER\_PHYSICAL\_WIDTH\_METERS} вредности \texttt{0.21f} --- маркер се штампа на папиру формата А4, чија је ширина 21 центиметар. Захваљујући томе ARCore одмах по препознавању тачно процењује позу и удаљеност маркера. Сваки позив \texttt{addImage} обавијен је у \texttt{try/catch} блок: ако нека слика нема довољно карактеристичних тачака, ARCore одбија да је упише у базу изузетком, па се таква слика прескаче уз упис у дневник уместо да обори читаву сесију. Ако ниједна слика не уђе у базу, кориснику се исписује порука „Nema markera u bazi aplikacije.". Поред конфигурације сесије, искључен је и подразумевани приказ детектованих равни поставком \texttt{planeRenderer.isEnabled = false}, јер апликација равни не користи.
+Treći parametar funkcije \texttt{addImage} je fizička širina odštampanog markera, konstanta \texttt{MARKER\_PHYSICAL\_WIDTH\_METERS} vrednosti \texttt{0.21f} --- marker se štampa na papiru formata A4, čija je širina 21 centimetar. Zahvaljujući tome ARCore odmah po prepoznavanju tačno procenjuje pozu i udaljenost markera. Svaki poziv \texttt{addImage} obavijen je u \texttt{try/catch} blok: ako neka slika nema dovoljno karakterističnih tačaka, ARCore odbija da je upiše u bazu izuzetkom, pa se takva slika preskače uz upis u dnevnik umesto da obori čitavu sesiju. Ako nijedna slika ne uđe u bazu, korisniku se ispisuje poruka „Nema markera u bazi aplikacije.". Pored konfiguracije sesije, isključen je i podrazumevani prikaz detektovanih ravni postavkom \texttt{planeRenderer.isEnabled = false}, jer aplikacija ravni ne koristi.
 
-\subsection{Препознавање учионице}
+\subsection{Prepoznavanje učionice}
 
-Преко повратног позива \texttt{onSessionUpdated} апликација се укључује у обраду сваког фрејма АР сесије. Из фрејма се функцијом \texttt{getUpdatedAugmentedImages} читају слике чије се стање у том фрејму променило:
+Preko povratnog poziva \texttt{onSessionUpdated} aplikacija se uključuje u obradu svakog frejma AR sesije. Iz frejma se funkcijom \texttt{getUpdatedAugmentedImages} čitaju slike čije se stanje u tom frejmu promenilo:
 
 \begin{verbatim}
 onSessionUpdated = { _, frame ->
@@ -52,11 +52,11 @@ onSessionUpdated = { _, frame ->
 }
 \end{verbatim}
 
-Слика у стању \texttt{TRACKING} активно се прати и њена поза је поуздана, па се за њу поставља панел; стање \texttt{STOPPED} значи да је праћење трајно прекинуто, па се сви ресурси везани за ту слику ослобађају. Идентификатор учионице изводи се из имена препознате слике: маркер \texttt{ucionica\_101} даје идентификатор \texttt{101} изразом \texttt{imageName.substringAfterLast('\_')}. Тај идентификатор се затим користи у путањи серверског позива, а кориснику се у статусној траци исписује порука „Učionica 101 --- podaci uživo.".
+Slika u stanju \texttt{TRACKING} aktivno se prati i njena poza je pouzdana, pa se za nju postavlja panel; stanje \texttt{STOPPED} znači da je praćenje trajno prekinuto, pa se svi resursi vezani za tu sliku oslobađaju. Identifikator učionice izvodi se iz imena prepoznate slike: marker \texttt{ucionica\_101} daje identifikator \texttt{101} izrazom \texttt{imageName.substringAfterLast('\_')}. Taj identifikator se zatim koristi u putanji serverskog poziva, a korisniku se u statusnoj traci ispisuje poruka „Učionica 101 --- podaci uživo.".
 
-\subsection{Сидрење панела}
+\subsection{Sidrenje panela}
 
-Када слика први пут уђе у стање праћења, апликација за њу креира сидро у центру маркера и обавија га у чвор сцене:
+Kada slika prvi put uđe u stanje praćenja, aplikacija za nju kreira sidro u centru markera i obavija ga u čvor scene:
 
 \begin{verbatim}
 val anchor = augmentedImage.createAnchor(augmentedImage.centerPose)
@@ -67,7 +67,7 @@ panelOffsets[imageName] =
         PANEL_HEIGHT_METERS / 2f)
 \end{verbatim}
 
-Сидро везано за позу слике обезбеђује да садржај остане причвршћен за маркер док ARCore прецизира своје разумевање сцене. Сам панел је чвор типа \texttt{ImageNode} --- раван правоугаоник на који се као текстура пресликава битмапа --- величине 32 пута 24 центиметра у стварном простору:
+Sidro vezano za pozu slike obezbeđuje da sadržaj ostane pričvršćen za marker dok ARCore precizira svoje razumevanje scene. Sam panel je čvor tipa \texttt{ImageNode} --- ravan pravougaonik na koji se kao tekstura preslikava bitmapa --- veličine 32 puta 24 centimetra u stvarnom prostoru:
 
 \begin{verbatim}
 val panelNode = ImageNode(
@@ -82,11 +82,11 @@ panelNode.position = Position(
 anchorNode.addChildNode(panelNode)
 \end{verbatim}
 
-Координатни систем препознате слике поставља X осу дуж њене ширине, Z осу дуж висине, а Y осу управно на њу, па се ротацијом од $-90$ степени око X осе правоугаоник панела поравнава са равни маркера. Померај дуж негативне Z осе, израчунат приликом препознавања, износи половину висине маркера (\texttt{extentZ / 2}) увећану за размак од три центиметра и половину висине самог панела --- тиме панел лебди тачно изнад горње ивице маркера, односно изнад врата учионице.
+Koordinatni sistem prepoznate slike postavlja X osu duž njene širine, Z osu duž visine, a Y osu upravno na nju, pa se rotacijom od $-90$ stepeni oko X ose pravougaonik panela poravnava sa ravni markera. Pomeraj duž negativne Z ose, izračunat prilikom prepoznavanja, iznosi polovinu visine markera (\texttt{extentZ / 2}) uvećanu za razmak od tri centimetra i polovinu visine samog panela --- time panel lebdi tačno iznad gornje ivice markera, odnosno iznad vrata učionice.
 
-\subsection{Исцртавање панела}
+\subsection{Iscrtavanje panela}
 
-Садржај панела не моделује се као 3Д геометрија, већ се користи постојећи систем Android распореда: класа \texttt{PanelBitmapRenderer} надувава XML распоред \texttt{view\_room\_panel.xml}, попуњава га подацима и исцртава у битмапу. Панел приказује назив учионице, ред заузетости („Zauzeta do 10:00 --- Pametna okruženja" или „Slobodna"), три реда са вредностима температуре, буке и угљен-диоксида уз кружне индикаторе обојене према статусу (зелено за \texttt{OK}, жуто за \texttt{WARNING}, црвено за \texttt{CRITICAL}) и ред са препоруком сервера, који се при критичном статусу такође боји црвено. Попуњени распоред се затим мери и исцртава у фиксној резолуцији:
+Sadržaj panela ne modeluje se kao 3D geometrija, već se koristi postojeći sistem Android rasporeda: klasa \texttt{PanelBitmapRenderer} naduvava XML raspored \texttt{view\_room\_panel.xml}, popunjava ga podacima i iscrtava u bitmapu. Panel prikazuje naziv učionice, red zauzetosti („Zauzeta do 10:00 --- Pametna okruženja" ili „Slobodna"), tri reda sa vrednostima temperature, buke i ugljen-dioksida uz kružne indikatore obojene prema statusu (zeleno za \texttt{OK}, žuto za \texttt{WARNING}, crveno za \texttt{CRITICAL}) i red sa preporukom servera, koji se pri kritičnom statusu takođe boji crveno. Popunjeni raspored se zatim meri i iscrtava u fiksnoj rezoluciji:
 
 \begin{verbatim}
 panelView.measure(
@@ -102,11 +102,11 @@ val bitmap = Bitmap.createBitmap(
 panelView.draw(Canvas(bitmap))
 \end{verbatim}
 
-Константе \texttt{BITMAP\_WIDTH} и \texttt{BITMAP\_HEIGHT} износе 1024 и 768 пиксела, што при односу страница 4:3 одговара физичким димензијама панела од 32 пута 24 центиметра. Када за већ приказану учионицу стигну нови подаци, чвор се не ствара изнова: довољно је постојећем \texttt{ImageNode} објекту доделити нову вредност својства \texttt{bitmap}, чиме SceneView замењује текстуру на месту, без трзаја у сцени.
+Konstante \texttt{BITMAP\_WIDTH} i \texttt{BITMAP\_HEIGHT} iznose 1024 i 768 piksela, što pri odnosu stranica 4:3 odgovara fizičkim dimenzijama panela od 32 puta 24 centimetra. Kada za već prikazanu učionicu stignu novi podaci, čvor se ne stvara iznova: dovoljno je postojećem \texttt{ImageNode} objektu dodeliti novu vrednost svojstva \texttt{bitmap}, čime SceneView zamenjuje teksturu na mestu, bez trzaja u sceni.
 
-\subsection{Преузимање података у реалном времену}
+\subsection{Preuzimanje podataka u realnom vremenu}
 
-Комуникација са сервером изведена је библиотеком \textit{Retrofit} уз \textit{kotlinx-serialization} конвертор. Мрежни интерфејс садржи две суспендоване функције:
+Komunikacija sa serverom izvedena je bibliotekom \textit{Retrofit} uz \textit{kotlinx-serialization} konvertor. Mrežni interfejs sadrži dve suspendovane funkcije:
 
 \begin{verbatim}
 interface RoomApiService {
@@ -119,9 +119,9 @@ interface RoomApiService {
 }
 \end{verbatim}
 
-Одговори сервера пресликавају се у типизиране објекте: класа \texttt{RoomResponse} означена анотацијом \texttt{@Serializable} садржи тачно она поља која сервер враћа (назив, заузетост, распоред, вредности сензора, статусе и препоруку), при чему су статуси моделовани набрајањем \texttt{SensorStatus} са вредностима \texttt{OK}, \texttt{WARNING} и \texttt{CRITICAL}. Адреса сервера чита се из дељених подешавања (\texttt{SharedPreferences}), где је уписује почетни екран.
+Odgovori servera preslikavaju se u tipizirane objekte: klasa \texttt{RoomResponse} označena anotacijom \texttt{@Serializable} sadrži tačno ona polja koja server vraća (naziv, zauzetost, raspored, vrednosti senzora, statuse i preporuku), pri čemu su statusi modelovani nabrajanjem \texttt{SensorStatus} sa vrednostima \texttt{OK}, \texttt{WARNING} i \texttt{CRITICAL}. Adresa servera čita se iz deljenih podešavanja (\texttt{SharedPreferences}), gde je upisuje početni ekran.
 
-За сваку праћену учионицу покреће се по један посао (\texttt{Job}) у опсегу \texttt{lifecycleScope}, који у петљи преузима стање и освежава панел на сваке три секунде:
+Za svaku praćenu učionicu pokreće se po jedan posao (\texttt{Job}) u opsegu \texttt{lifecycleScope}, koji u petlji preuzima stanje i osvežava panel na svake tri sekunde:
 
 \begin{verbatim}
 pollingJobs[imageName] = lifecycleScope.launch {
@@ -142,8 +142,8 @@ pollingJobs[imageName] = lifecycleScope.launch {
 }
 \end{verbatim}
 
-Мрежне грешке не прекидају петљу: кориснику се исписује порука о недоступном серверу, а следећа итерација поново покушава преузимање, па се панел сам опоравља чим сервер постане доступан. Посао се отказује чим праћење слике престане, као и у методи \texttt{onPause}, чиме се спречава мрежни саобраћај док је апликација у позадини; у методи \texttt{onResume} послови се поново покрећу за све учионице које су и даље усидрене.
+Mrežne greške ne prekidaju petlju: korisniku se ispisuje poruka o nedostupnom serveru, a sledeća iteracija ponovo pokušava preuzimanje, pa se panel sam oporavlja čim server postane dostupan. Posao se otkazuje čim praćenje slike prestane, kao i u metodi \texttt{onPause}, čime se sprečava mrežni saobraćaj dok je aplikacija u pozadini; u metodi \texttt{onResume} poslovi se ponovo pokreću za sve učionice koje su i dalje usidrene.
 
-\subsection{Животни циклус и ослобађање ресурса}
+\subsection{Životni ciklus i oslobađanje resursa}
 
-Када ARCore праћење неке слике пређе у стање \texttt{STOPPED}, није довољно само сакрити панел: чвор панела се уклања из графа сцене и уништава позивом \texttt{destroy()}, а затим се исто чини и са сидришним чвором, чиме се ослобађа и само ARCore сидро. Овај корак је важан, јер свако активно сидро троши ресурсе праћења у сваком фрејму --- ARCore његову позу непрестано ажурира --- па би нагомилавање неослобођених сидара временом деградирало перформансе сесије. Истим редоследом ослобађају се и припадајуће ставке у мапама и отказује посао за преузимање података, чиме се гарантује да по престанку праћења не остаје ниједан активан ресурс везан за ту учионицу.
+Kada ARCore praćenje neke slike pređe u stanje \texttt{STOPPED}, nije dovoljno samo sakriti panel: čvor panela se uklanja iz grafa scene i uništava pozivom \texttt{destroy()}, a zatim se isto čini i sa sidrišnim čvorom, čime se oslobađa i samo ARCore sidro. Ovaj korak je važan, jer svako aktivno sidro troši resurse praćenja u svakom frejmu --- ARCore njegovu pozu neprestano ažurira --- pa bi nagomilavanje neoslobođenih sidara vremenom degradiralo performanse sesije. Istim redosledom oslobađaju se i pripadajuće stavke u mapama i otkazuje posao za preuzimanje podataka, čime se garantuje da po prestanku praćenja ne ostaje nijedan aktivan resurs vezan za tu učionicu.

@@ -1,41 +1,41 @@
-\section{Архитектура система}
+\section{Arhitektura sistema}
 
-Решење описано у овом раду чине три компоненте које заједно симулирају и приказују једно паметно окружење: серверска апликација која игра улогу паметне зграде, веб контролна табла којом се током демонстрације мењају вредности сензора и \textit{Android} АР апликација као главни потрошач података. Ток података је једносмеран и једноставан: контролна табла шаље нове вредности сензора серверу, сервер их чува и обогаћује изведеним информацијама, а АР апликација их периодично преузима и исцртава у простору.
+Rešenje opisano u ovom radu čine tri komponente koje zajedno simuliraju i prikazuju jedno pametno okruženje: serverska aplikacija koja igra ulogu pametne zgrade, veb kontrolna tabla kojom se tokom demonstracije menjaju vrednosti senzora i \textit{Android} AR aplikacija kao glavni potrošač podataka. Tok podataka je jednosmeran i jednostavan: kontrolna tabla šalje nove vrednosti senzora serveru, server ih čuva i obogaćuje izvedenim informacijama, a AR aplikacija ih periodično preuzima i iscrtava u prostoru.
 
 \begin{enumerate}
-\item Презентер на контролној табли помери клизач или промени заузетост учионице; промена се после кратког задршка шаље серверу.
-\item Сервер проверава да ли су вредности у дозвољеним границама, уписује их у меморијско стање и на сваки упит израчунава статусе и препоруку.
-\item АР апликација, док прати маркер учионице, на сваке три секунде преузима стање те учионице и освежава панел усидрен изнад маркера.
+\item Prezenter na kontrolnoj tabli pomeri klizač ili promeni zauzetost učionice; promena se posle kratkog zadrška šalje serveru.
+\item Server proverava da li su vrednosti u dozvoljenim granicama, upisuje ih u memorijsko stanje i na svaki upit izračunava statuse i preporuku.
+\item AR aplikacija, dok prati marker učionice, na svake tri sekunde preuzima stanje te učionice i osvežava panel usidren iznad markera.
 \end{enumerate}
 
-\subsection{Серверска апликација}
+\subsection{Serverska aplikacija}
 
-Сервер је \textit{Spring Boot} апликација (верзија 3.5, Java 21) која симулира паметно окружење. Стање учионица држи у меморији, у структури \texttt{ConcurrentHashMap}, без базе података: при покретању се учитавају три учионице (101, 102 и 103) са почетним вредностима температуре, буке и угљен-диоксида, заузетошћу и дневним распоредом часова. Целокупан изведени садржај рачуна се на серверу, па су оба клијента само прикази добијених података. РЕСТ интерфејс чине три крајње тачке приказане у табели~\ref{tab:endpoints}.
+Server je \textit{Spring Boot} aplikacija (verzija 3.5, Java 21) koja simulira pametno okruženje. Stanje učionica drži u memoriji, u strukturi \texttt{ConcurrentHashMap}, bez baze podataka: pri pokretanju se učitavaju tri učionice (101, 102 i 103) sa početnim vrednostima temperature, buke i ugljen-dioksida, zauzetošću i dnevnim rasporedom časova. Celokupan izvedeni sadržaj računa se na serveru, pa su oba klijenta samo prikazi dobijenih podataka. REST interfejs čine tri krajnje tačke prikazane u tabeli~\ref{tab:endpoints}.
 
 \begin{table}[H]
 \centering
 \small
 \begin{tabular}{llp{5.6cm}}
 \toprule
-\textbf{Метода} & \textbf{Путања} & \textbf{Опис} \\
+\textbf{Metoda} & \textbf{Putanja} & \textbf{Opis} \\
 \midrule
-\texttt{GET} & \texttt{/api/rooms} & листа свих учионица са тренутним стањем \\
-\texttt{GET} & \texttt{/api/rooms/\{roomId\}} & стање једне учионице; 404 за непознат идентификатор \\
-\texttt{PUT} & \texttt{/api/rooms/\{roomId\}/sensors} & упис нових вредности сензора и заузетости \\
+\texttt{GET} & \texttt{/api/rooms} & lista svih učionica sa trenutnim stanjem \\
+\texttt{GET} & \texttt{/api/rooms/\{roomId\}} & stanje jedne učionice; 404 za nepoznat identifikator \\
+\texttt{PUT} & \texttt{/api/rooms/\{roomId\}/sensors} & upis novih vrednosti senzora i zauzetosti \\
 \bottomrule
 \end{tabular}
-\caption{Крајње тачке РЕСТ интерфејса сервера}
+\caption{Krajnje tačke REST interfejsa servera}
 \label{tab:endpoints}
 \end{table}
 
-За сваку измерену величину сервер израчунава статус са вредностима \texttt{OK}, \texttt{WARNING} или \texttt{CRITICAL} према задатим праговима: температура је у реду између 20 и 26~°C, бука испод 45~dB, а угљен-диоксид испод 800~ppm, док вредности изван ширих граница постају критичне. На основу статуса формира се и препорука на српском језику као подршка одлучивању --- од „Услови су оптимални." преко „Пратити услове у просторији." до „Хитно проветрити просторију." када је концентрација угљен-диоксида критична. Сервер из распореда часова и сопственог сата изводи и текст заузетости (назив текућег часа и време до којег је учионица заузета), а враћеним вредностима додаје благи синусни шум како би панели деловали живо и без сталних промена на контролној табли.
+Za svaku izmerenu veličinu server izračunava status sa vrednostima \texttt{OK}, \texttt{WARNING} ili \texttt{CRITICAL} prema zadatim pragovima: temperatura je u redu između 20 i 26~°C, buka ispod 45~dB, a ugljen-dioksid ispod 800~ppm, dok vrednosti izvan širih granica postaju kritične. Na osnovu statusa formira se i preporuka na srpskom jeziku kao podrška odlučivanju --- od „Uslovi su optimalni." preko „Pratiti uslove u prostoriji." do „Hitno provetriti prostoriju." kada je koncentracija ugljen-dioksida kritična. Server iz rasporeda časova i sopstvenog sata izvodi i tekst zauzetosti (naziv tekućeg časa i vreme do kojeg je učionica zauzeta), a vraćenim vrednostima dodaje blagi sinusni šum kako bi paneli delovali živo i bez stalnih promena na kontrolnoj tabli.
 
-\subsection{Контролна табла}
+\subsection{Kontrolna tabla}
 
-Контролна табла је једнострана \textit{Angular} апликација (назив \texttt{kontrolna-tabla}) са по једном картицом за сваку учионицу. Картица садржи прекидач заузетости и три клизача --- температуру, буку и угљен-диоксид --- чија се свака промена, после задршка од 300~ms (енгл. \textit{debounce}), шаље серверу позивом \texttt{PUT /api/rooms/\{roomId\}/sensors}. Табла истовремено на сваких пет секунди преузима свеже стање свих учионица. Њена улога у систему је демонстрациона: пошто у учионицама не постоје стварни сензори, презентер преко клизача уживо симулира промене у паметном окружењу и посматра како се оне одражавају на АР панелу.
+Kontrolna tabla je jednostrana \textit{Angular} aplikacija (naziv \texttt{kontrolna-tabla}) sa po jednom karticom za svaku učionicu. Kartica sadrži prekidač zauzetosti i tri klizača --- temperaturu, buku i ugljen-dioksid --- čija se svaka promena, posle zadrška od 300~ms (engl. \textit{debounce}), šalje serveru pozivom \texttt{PUT /api/rooms/\{roomId\}/sensors}. Tabla istovremeno na svakih pet sekundi preuzima sveže stanje svih učionica. Njena uloga u sistemu je demonstraciona: pošto u učionicama ne postoje stvarni senzori, prezenter preko klizača uživo simulira promene u pametnom okruženju i posmatra kako se one odražavaju na AR panelu.
 
-\snimakekrana{slike/01-kontrolna-tabla.png}{Контролна табла са картицама учионица и клизачима}
+\snimakekrana{slike/01-kontrolna-tabla.png}{Kontrolna tabla sa karticama učionica i klizačima}
 
-\subsection{АР апликација}
+\subsection{AR aplikacija}
 
-Трећа и централна компонента је \textit{Android} апликација заснована на \textit{ARCore} платформи, главни потрошач података из паметног окружења. Она препознаје маркер на вратима учионице, из његовог имена изводи идентификатор просторије, преузима њено стање са сервера и изнад маркера сидри панел са живим подацима. Развоју и имплементацији ове апликације посвећена су наредна два поглавља.
+Treća i centralna komponenta je \textit{Android} aplikacija zasnovana na \textit{ARCore} platformi, glavni potrošač podataka iz pametnog okruženja. Ona prepoznaje marker na vratima učionice, iz njegovog imena izvodi identifikator prostorije, preuzima njeno stanje sa servera i iznad markera sidri panel sa živim podacima. Razvoju i implementaciji ove aplikacije posvećena su naredna dva poglavlja.
