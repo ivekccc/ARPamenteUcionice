@@ -76,7 +76,11 @@ Izgled kompletnog odgovora servera najbolje ilustruje stvaran primer. Na upit \t
 
 Kontrolna tabla je jednostrana \textit{Angular} aplikacija (naziv \texttt{kontrolna-tabla}) sa po jednom karticom za svaku učionicu. Kartica sadrži prekidač zauzetosti i tri klizača --- temperaturu, buku i ugljen-dioksid --- čija se svaka promena, posle zadrška od 300~ms (engl. \textit{debounce}), šalje serveru pozivom \texttt{PUT /api/rooms/\{roomId\}/sensors}. Tabla istovremeno na svakih pet sekundi preuzima sveže stanje svih učionica. Njena uloga u sistemu je demonstraciona: pošto u učionicama ne postoje stvarni senzori, prezenter preko klizača uživo simulira promene u pametnom okruženju i posmatra kako se one odražavaju na AR panelu.
 
-\snimakekrana{slike/01-kontrolna-tabla.png}{Kontrolna tabla sa karticama učionica i klizačima}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{slike/01-kontrolna-tabla.png}
+\caption{Kontrolna tabla sa karticama učionica i klizačima}
+\end{figure}
 
 \subsection{AR aplikacija}
 
