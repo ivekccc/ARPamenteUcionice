@@ -108,6 +108,10 @@ Kada su okruženje, zavisnosti i manifest spremni, do prve funkcionalne AR scene
 \includegraphics[width=0.42\textwidth]{slike/korak-plane-renderer.png}
 \end{center}
 \item Preko povratnog poziva \texttt{onSessionUpdated} aplikacija se uključuje u obradu svakog frejma i iz njega čita novoprepoznate i ažurirane slike markera.
+
+\begin{center}
+\includegraphics[width=0.88\textwidth]{slike/korak-on-session-updated.png}
+\end{center}
 \item U vreme izvršavanja traži se dozvola za kameru, budući da se od API nivoa 23 opasne dozvole moraju eksplicitno odobriti od strane korisnika.
 \item Aplikacija se pokreće na fizičkom uređaju, sa odštampanim markerom, gde se proverava da li se marker prepoznaje i da li panel stabilno stoji iznad njega.
 \end{enumerate}
