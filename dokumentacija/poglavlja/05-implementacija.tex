@@ -6,32 +6,9 @@ Centralna komponenta aplikacije je aktivnost \texttt{AugmentedRealityActivity}, 
 
 Baza referentnih slika gradi se u pozivu \texttt{configureSession}, pri svakom pokretanju AR sesije. Aplikacija iz fascikle \texttt{assets/markers} čita sve PNG datoteke i svaku dodaje u bazu pod imenom koje odgovara nazivu datoteke bez ekstenzije:
 
-\begin{verbatim}
-configureSession { session, config ->
-    val augmentedImageDatabase = AugmentedImageDatabase(session)
-    val markerFileNames = assets.list("markers").orEmpty()
-        .filter { it.endsWith(".png") }
-    markerFileNames.forEach { markerFileName ->
-        val imageName = markerFileName.substringBeforeLast('.')
-        try {
-            assets.open("markers/$markerFileName").use { markerStream ->
-                val markerBitmap = BitmapFactory.decodeStream(markerStream)
-                if (markerBitmap != null) {
-                    augmentedImageDatabase.addImage(
-                        imageName,
-                        markerBitmap,
-                        MARKER_PHYSICAL_WIDTH_METERS
-                    )
-                }
-            }
-        } catch (exception: Exception) {
-            Log.w("AugmentedRealityActivity",
-                "Preskočen marker $markerFileName", exception)
-        }
-    }
-    config.augmentedImageDatabase = augmentedImageDatabase
-}
-\end{verbatim}
+\begin{center}
+\includegraphics[width=0.82\textwidth]{slike/implementacija-baza-slika.png}
+\end{center}
 
 Treći parametar funkcije \texttt{addImage} je fizička širina odštampanog markera, konstanta \texttt{MARKER\_PHYSICAL\_WIDTH\_METERS} vrednosti \texttt{0.21f} --- marker se štampa na papiru formata A4, čija je širina 21 centimetar. Zahvaljujući tome ARCore odmah po prepoznavanju tačno procenjuje pozu i udaljenost markera. Svaki poziv \texttt{addImage} obavijen je u \texttt{try/catch} blok: ako neka slika nema dovoljno karakterističnih tačaka, ARCore odbija da je upiše u bazu izuzetkom, pa se takva slika preskače uz upis u dnevnik umesto da obori čitavu sesiju. Ako nijedna slika ne uđe u bazu, korisniku se ispisuje poruka „Nema markera u bazi aplikacije.". Pored konfiguracije sesije, isključen je i podrazumevani prikaz detektovanih ravni postavkom \texttt{planeRenderer.isEnabled = false}, jer aplikacija ravni ne koristi.
 
